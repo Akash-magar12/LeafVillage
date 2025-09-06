@@ -1,12 +1,76 @@
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
+
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <nav className="flex justify-between items-center">
-      <h1 className="font-heading text-2xl">🍃 LeafVillage</h1>
-      <ul className="flex font-body gap-2">
-        <li>Home</li>
-        <li>Characters</li>
-        <li>World</li>
+    <nav className="relative flex justify-between items-center px-6 py-4 bg-white shadow-md">
+      {/* Logo */}
+      <h1 className="font-heading text-2xl text-black">🍃 LeafVillage</h1>
+
+      {/* Deskhrefp Menu */}
+      <ul className="hidden md:flex font-heading gap-6 text-lg text-black">
+        <li>
+          <a href="/" className="hover:text-gray-600 transition">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/characters" className="hover:text-gray-600 transition">
+            Characters
+          </a>
+        </li>
+        <li>
+          <a href="/world" className="hover:text-gray-600 transition">
+            World
+          </a>
+        </li>
       </ul>
+
+      {/* Mobile hrefggle */}
+      <button
+        className="md:hidden text-black"
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        {open ? <X size={28} /> : <Menu size={28} />}
+      </button>
+
+      {/* Mobile Menu */}
+      {open && (
+        <div className="absolute hrefp-16 left-0 w-full bg-white border-t shadow-md md:hidden">
+          <ul className="flex flex-col gap-4 p-4 font-heading text-lg text-black">
+            <li>
+              <a
+                href="/"
+                className="hover:text-gray-600 transition"
+                onClick={() => setOpen(false)}
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                href="/characters"
+                className="hover:text-gray-600 transition"
+                onClick={() => setOpen(false)}
+              >
+                Characters
+              </a>
+            </li>
+            <li>
+              <a
+                href="/world"
+                className="hover:text-gray-600 transition"
+                onClick={() => setOpen(false)}
+              >
+                World
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
