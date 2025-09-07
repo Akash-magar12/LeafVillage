@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 
 const Navbar = () => {
@@ -13,19 +14,19 @@ const Navbar = () => {
       {/* Deskhrefp Menu */}
       <ul className="hidden md:flex font-heading gap-6 text-lg text-black">
         <li>
-          <a href="/" className="hover:text-gray-600 transition">
+          <Link to="/" className="hover:text-gray-600 transition">
             Home
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/characters" className="hover:text-gray-600 transition">
+          <Link to="/characters" className="hover:text-gray-600 transition">
             Characters
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/world" className="hover:text-gray-600 transition">
+          <Link to="/world" className="hover:text-gray-600 transition">
             World
-          </a>
+          </Link>
         </li>
       </ul>
 
@@ -42,31 +43,31 @@ const Navbar = () => {
         <div className="absolute hrefp-16 left-0 w-full bg-white border-t shadow-md md:hidden">
           <ul className="flex flex-col gap-4 p-4 font-heading text-lg text-black">
             <li>
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="hover:text-gray-600 transition"
                 onClick={() => setOpen(false)}
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/characters"
+              <Link
+                to="/characters"
                 className="hover:text-gray-600 transition"
                 onClick={() => setOpen(false)}
               >
                 Characters
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/world"
+              <Link
+                to="/world"
                 className="hover:text-gray-600 transition"
                 onClick={() => setOpen(false)}
               >
                 World
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
