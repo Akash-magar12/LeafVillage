@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "../components/ui/card";
+import { Link } from "react-router-dom";
 
 interface CardProp {
   name: string;
@@ -57,29 +58,28 @@ const Character = () => {
       {/* Characters Grid */}
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {data.slice(0, 20).map((char: CardProp) => (
-            <Card
-              key={char.id}
-              className="group overflow-hidden font-body cursor-pointer bg-card border-border relative transition-all hover:-translate-y-1"
-            >
-              <div className="relative overflow-hidden">
-                <img
-                  src={
-                    char.images?.[0] ||
-                    "/placeholder.svg?height=256&width=256&query=ninja character"
-                  }
-                  alt={char.name}
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
+          {data.map((char: CardProp) => (
+            <Link key={char.id} to={`/characters/${char.id}`}>
+              <Card className="group overflow-hidden font-body cursor-pointer bg-card border-border relative transition-all hover:-translate-y-1">
+                <div className="relative overflow-hidden">
+                  <img
+                    src={
+                      char.images?.[0] ||
+                      "/placeholder.svg?height=256&width=256&query=ninja character"
+                    }
+                    alt={char.name}
+                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
 
-              <CardContent className=" text-center">
-                <h2 className="text-xl  tracking-wider font-heading font-semibold text-card-foreground line-clamp-1">
-                  {char.name}
-                </h2>
-              </CardContent>
-            </Card>
+                <CardContent className=" text-center">
+                  <h2 className="text-xl  tracking-wider font-heading font-semibold text-card-foreground line-clamp-1">
+                    {char.name}
+                  </h2>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
