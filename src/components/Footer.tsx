@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Github, Twitter, Instagram, Leaf } from "lucide-react";
+import { Github, Twitter, Instagram } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -8,7 +8,10 @@ const Footer = () => {
         {/* Brand */}
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <h2 className="text-2xl font-bold text-gray-900 font-heading"> 🍃 LeafVillage</h2>
+            <h2 className="text-2xl font-bold text-gray-900 font-heading">
+              {" "}
+              🍃 LeafVillage
+            </h2>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed max-w-sm">
             Dive into the world of Naruto — characters, clans, villages, and
