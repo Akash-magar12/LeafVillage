@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "../components/ui/card";
 import { Link } from "react-router-dom";
+import Loader from "../components/Loader";
 
 interface CardProp {
   name: string;
@@ -11,7 +12,6 @@ interface CardProp {
 const Character = () => {
   const [data, setData] = useState<CardProp[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  console.log(data);
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
@@ -30,14 +30,7 @@ const Character = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col justify-center items-center bg-background">
-        <img src="/loading.gif" alt="Loading..." className="w-32 h-32 mb-4" />
-        <p className="text-2xl font-heading font-medium text-muted-foreground animate-pulse">
-          Summoning Characters...
-        </p>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
