@@ -6,33 +6,38 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { Card, CardContent } from "../components/ui/card";
-import { Users, MapPin, Flame, Swords, Eye } from "lucide-react";
+import { Users, MapPin, Swords, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
 
+interface DataType {
+  id: string | number;
+  name: string;
+}
+
 const World = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [data, setData] = useState<DataType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("clans");
-  console.log(category);
+  console.log(data);
   useEffect(() => {
-    const fetchCharacter = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(
           `https://dattebayo-api.onrender.com/${category}`
         );
-        setData(Object.values(response.data)[0]);
+        // setData(Object.values(response.data)[0] as DataType[]);
+        setData(response.data[category]);
       } catch (error) {
-        console.error("Error fetching clans:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCharacter();
+    fetchData();
   }, [category]);
-  console.log(data);
 
   if (loading) {
     return <Loader />;
@@ -65,11 +70,7 @@ const World = () => {
                   <MapPin className="w-4 h-4 text-green-500" /> Villages
                 </div>
               </SelectItem>
-              <SelectItem value="akatsuki">
-                <div className="flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-red-500" /> Akatsuki
-                </div>
-              </SelectItem>
+
               <SelectItem value="teams">
                 <div className="flex items-center gap-2">
                   <Swords className="w-4 h-4 text-blue-500" /> Teams
@@ -78,11 +79,6 @@ const World = () => {
               <SelectItem value="kekkei-genkai">
                 <div className="flex items-center gap-2">
                   <Eye className="w-4 h-4 text-indigo-500" /> Kekkei Genkai
-                </div>
-              </SelectItem>
-              <SelectItem value="tailed-beasts">
-                <div className="flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-orange-500" /> Tailed Beasts
                 </div>
               </SelectItem>
             </SelectContent>
