@@ -28,6 +28,16 @@ const Navbar = () => {
             World
           </Link>
         </li>
+        <li>
+          <Link to="/akatsuki" className="hover:text-gray-600 transition">
+           Akatsuki
+          </Link>
+        </li>
+        <li>
+          <Link to="/tailed-beasts" className="hover:text-gray-600 transition">
+            Tailed Beasts
+          </Link>
+        </li>
       </ul>
 
       {/* Mobile hrefggle */}
