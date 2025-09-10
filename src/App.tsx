@@ -6,6 +6,7 @@ import CharacterDetail from "./Pages/CharacterDetail";
 import World from "./Pages/World";
 import Akatsuki from "./Pages/Akatsuki";
 import TailedBeast from "./Pages/TailedBeast";
+import Clans from "./Pages/Clans";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -19,6 +20,7 @@ const App = () => {
         { path: "/world", element: <World /> },
         { path: "/akatsuki", element: <Akatsuki /> },
         { path: "/tailed-beasts", element: <TailedBeast /> },
+        { path: "/:category/:id", element: <Clans /> },
       ],
     },
   ]);

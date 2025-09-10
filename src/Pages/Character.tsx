@@ -39,7 +39,12 @@ const Character = () => {
     };
 
     fetchCharacter();
-  }, [page]); // ✅ refetch whenever page changes
+  }, [page]);
+
+  // ✅ scroll to top on page change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
 
   if (loading) {
     return <Loader />;
@@ -89,7 +94,6 @@ const Character = () => {
         </div>
       </div>
 
-      {/* Pagination */}
       {/* Pagination */}
       <div className="flex justify-center py-8">
         <Pagination>

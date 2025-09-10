@@ -10,6 +10,7 @@ import { Users, MapPin, Swords, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
+import { Link } from "react-router-dom";
 
 interface DataType {
   id: string | number;
@@ -20,14 +21,13 @@ const World = () => {
   const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("clans");
-  console.log(data);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
           `https://dattebayo-api.onrender.com/${category}`
         );
-        // setData(Object.values(response.data)[0] as DataType[]);
+        console.log(response.data);
         setData(response.data[category]);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -88,9 +88,11 @@ const World = () => {
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {data.map((item) => (
-          <Card key={item.id} className="p-4">
-            <h3 className="font-bold text-lg">{item.name}</h3>
-          </Card>
+          <Link to={`/${category}/${item.id}`}>
+            <Card key={item.id} className="p-4">
+              <h3 className="font-bold text-lg">{item.name}</h3>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>
