@@ -21,8 +21,8 @@ interface CardProp {
 const Character = () => {
   const [data, setData] = useState<CardProp[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   useEffect(() => {
     const fetchCharacter = async () => {
       setLoading(true);
@@ -30,6 +30,9 @@ const Character = () => {
         const response = await axios.get(
           `https://dattebayo-api.onrender.com/characters?page=${page}`
         );
+        const total = response.data.total;
+        const pageSize = response.data.pageSize;
+        setTotalPages(Math.ceil(total / pageSize));
         setData(response.data.characters || []);
       } catch (error) {
         console.error("Error fetching characters:", error);
@@ -123,8 +126,12 @@ const Character = () => {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  setPage(page + 1);
+                  if (page < totalPages) setPage(page + 1);
                 }}
+                className={
+                  page >= totalPages ? "pointer-events-none opacity-50" : ""
+                }
+                aria-disabled={page >= totalPages}
               />
             </PaginationItem>
           </PaginationContent>
