@@ -39,7 +39,7 @@ const TailedBeast = () => {
       <div>
         <div className="max-w-7xl mx-auto px-6 py-16 text-center">
           <h1 className="text-4xl font-heading md:text-6xl font-bold text-foreground mb-4 tracking-wider">
-            Akatsuki Characters
+           Tailed Beast
           </h1>
           <p className="text-xl font-body text-muted-foreground max-w-2xl mx-auto">
             Discover the legendary shinobi from the Hidden Leaf Village and

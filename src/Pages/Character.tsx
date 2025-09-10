@@ -3,22 +3,34 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "../components/ui/card";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../components/ui/pagination";
 
 interface CardProp {
   name: string;
   id: number;
   images: string[];
 }
+
 const Character = () => {
   const [data, setData] = useState<CardProp[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     const fetchCharacter = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
-          "https://dattebayo-api.onrender.com/characters"
+          `https://dattebayo-api.onrender.com/characters?page=${page}`
         );
-        setData(response.data.characters);
+        setData(response.data.characters || []);
       } catch (error) {
         console.error("Error fetching characters:", error);
       } finally {
@@ -27,7 +39,7 @@ const Character = () => {
     };
 
     fetchCharacter();
-  }, []);
+  }, [page]); // ✅ refetch whenever page changes
 
   if (loading) {
     return <Loader />;
@@ -66,8 +78,8 @@ const Character = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
-                <CardContent className=" text-center">
-                  <h2 className="text-xl  tracking-wider font-heading font-semibold text-card-foreground line-clamp-1">
+                <CardContent className="text-center">
+                  <h2 className="text-xl tracking-wider font-heading font-semibold text-card-foreground line-clamp-1">
                     {char.name}
                   </h2>
                 </CardContent>
@@ -75,6 +87,44 @@ const Character = () => {
             </Link>
           ))}
         </div>
+      </div>
+
+      {/* Pagination */}
+      {/* Pagination */}
+      <div className="flex justify-center py-8">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                size="default"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (page > 1) setPage(page - 1);
+                }}
+                className={page === 1 ? "pointer-events-none opacity-50" : ""}
+                aria-disabled={page === 1}
+              />
+            </PaginationItem>
+
+            <PaginationItem>
+              <PaginationLink size="default" isActive>
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+
+            <PaginationItem>
+              <PaginationNext
+                size="default"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
