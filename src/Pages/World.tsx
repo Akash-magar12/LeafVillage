@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface DataType {
   id: string | number;
@@ -21,25 +22,44 @@ const World = () => {
   const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("clans");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://dattebayo-api.onrender.com/${category}`
-        );
-        console.log(response.data);
-        setData(response.data[category]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-    fetchData();
+  const fetchData = async (reset = false) => {
+    try {
+      const response = await axios.get(
+        `https://dattebayo-api.onrender.com/${category}?page=${reset ? 1 : page}&limit=20`
+      );
+
+      const newData = response.data[category];
+
+      if (reset) {
+        setData(newData);
+        setPage(2); // next page
+      } else {
+        setData((prev) => [...prev, ...newData]);
+        setPage((prev) => prev + 1);
+      }
+
+      // If API returns empty, stop further calls
+      if (newData.length === 0) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Reset when category changes
+  useEffect(() => {
+    setLoading(true);
+    setHasMore(true);
+    fetchData(true);
   }, [category]);
 
-  if (loading) {
+  if (loading && data.length === 0) {
     return <Loader />;
   }
 
@@ -70,7 +90,6 @@ const World = () => {
                   <MapPin className="w-4 h-4 text-green-500" /> Villages
                 </div>
               </SelectItem>
-
               <SelectItem value="teams">
                 <div className="flex items-center gap-2">
                   <Swords className="w-4 h-4 text-blue-500" /> Teams
@@ -86,15 +105,28 @@ const World = () => {
         </CardContent>
       </Card>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
-        {data.map((item) => (
-          <Link to={`/${category}/${item.id}`}>
-            <Card key={item.id} className="p-4">
-              <h3 className="font-bold text-lg">{item.name}</h3>
-            </Card>
-          </Link>
-        ))}
-      </div>
+      {/* Infinite Scroll List */}
+      <InfiniteScroll
+        dataLength={data.length}
+        next={() => fetchData()}
+        hasMore={hasMore}
+        loader={<Loader />}
+        endMessage={
+          <p className="text-center text-gray-500 mt-4">
+            🎉 You’ve reached the end!
+          </p>
+        }
+      >
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {data.map((item) => (
+            <Link key={item.id} to={`/${category}/${item.id}`}>
+              <Card className="p-4">
+                <h3 className="font-bold text-lg">{item.name}</h3>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
   );
 };

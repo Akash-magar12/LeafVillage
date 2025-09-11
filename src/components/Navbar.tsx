@@ -5,43 +5,33 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Characters", path: "/characters" },
+    { name: "World", path: "/world" },
+    { name: "Akatsuki", path: "/akatsuki" },
+    { name: "Tailed Beasts", path: "/tailed-beasts" },
+  ];
+
   return (
-    <nav className="relative flex justify-between items-center px-6 py-4 bg-white shadow-md">
+    <nav className="relative flex justify-between items-center px-4 py-4 bg-white b-shad">
       {/* Logo */}
       <Link to="/">
         <h1 className="font-heading text-2xl text-black">🍃 LeafVillage</h1>
       </Link>
 
-      {/* Deskhrefp Menu */}
+      {/* Desktop Menu */}
       <ul className="hidden md:flex font-heading gap-6 text-lg text-black">
-        <li>
-          <Link to="/" className="hover:text-gray-600 transition">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/characters" className="hover:text-gray-600 transition">
-            Characters
-          </Link>
-        </li>
-        <li>
-          <Link to="/world" className="hover:text-gray-600 transition">
-            World
-          </Link>
-        </li>
-        <li>
-          <Link to="/akatsuki" className="hover:text-gray-600 transition">
-            Akatsuki
-          </Link>
-        </li>
-        <li>
-          <Link to="/tailed-beasts" className="hover:text-gray-600 transition">
-            Tailed Beasts
-          </Link>
-        </li>
+        {navItems.map((l, i) => (
+          <li key={i}>
+            <Link to={l.path} className="hover:text-gray-600 transition">
+              {l.name}
+            </Link>
+          </li>
+        ))}
       </ul>
 
-      {/* Mobile hrefggle */}
+      {/* Mobile Toggle */}
       <button
         className="md:hidden text-black"
         onClick={() => setOpen((prev) => !prev)}
@@ -51,35 +41,19 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="absolute hrefp-16 left-0 w-full bg-white border-t shadow-md md:hidden">
+        <div className="absolute top-16 left-0 w-full bg-white border-t shadow-md md:hidden">
           <ul className="flex flex-col gap-4 p-4 font-heading text-lg text-black">
-            <li>
-              <Link
-                to="/"
-                className="hover:text-gray-600 transition"
-                onClick={() => setOpen(false)}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/characters"
-                className="hover:text-gray-600 transition"
-                onClick={() => setOpen(false)}
-              >
-                Characters
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/world"
-                className="hover:text-gray-600 transition"
-                onClick={() => setOpen(false)}
-              >
-                World
-              </Link>
-            </li>
+            {navItems.map((l, i) => (
+              <li key={i}>
+                <Link
+                  to={l.path}
+                  className="hover:text-gray-600 transition"
+                  onClick={() => setOpen(false)}
+                >
+                  {l.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       )}

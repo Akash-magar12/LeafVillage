@@ -5,7 +5,7 @@ import ScrollToTop from "../components/ScrollToTop";
 
 const AppLayout = () => {
   return (
-    <div>
+    <div className="w-full min-h-screen ">
       <ScrollToTop />
       <Navbar />
       <Outlet />
