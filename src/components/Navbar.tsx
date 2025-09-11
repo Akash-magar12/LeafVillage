@@ -2,14 +2,15 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
-
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
     <nav className="relative flex justify-between items-center px-6 py-4 bg-white shadow-md">
       {/* Logo */}
-      <h1 className="font-heading text-2xl text-black">🍃 LeafVillage</h1>
+      <Link to="/">
+        <h1 className="font-heading text-2xl text-black">🍃 LeafVillage</h1>
+      </Link>
 
       {/* Deskhrefp Menu */}
       <ul className="hidden md:flex font-heading gap-6 text-lg text-black">
@@ -30,7 +31,7 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/akatsuki" className="hover:text-gray-600 transition">
-           Akatsuki
+            Akatsuki
           </Link>
         </li>
         <li>

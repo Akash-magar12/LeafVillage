@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
@@ -16,7 +16,7 @@ interface CategoryProp {
   characters: CharacterProp[];
 }
 
-const Clans = () => {
+const Category = () => {
   const { category, id } = useParams(); // e.g. "clans/1"
   const [data, setData] = useState<CategoryProp | null>(null);
   const [loading, setLoading] = useState(true);
@@ -63,14 +63,16 @@ const Clans = () => {
         <h2 className="text-xl font-semibold mt-6 mb-2">Characters</h2>
         <ul className="space-y-2">
           {data.characters.map((char) => (
-            <li key={char.id} className="p-2 border rounded">
-              <p className="font-medium">{char.name}</p>
-              <img
-                src={char.images?.[0]}
-                alt={char.name}
-                className="w-32 rounded mt-2"
-              />
-            </li>
+            <Link to={`/characters/${char.id}`}>
+              <li key={char.id} className="p-2 border rounded">
+                <p className="font-medium">{char.name}</p>
+                <img
+                  src={char.images?.[0]}
+                  alt={char.name}
+                  className="w-32 rounded mt-2"
+                />
+              </li>
+            </Link>
           ))}
         </ul>
       </Card>
@@ -78,4 +80,4 @@ const Clans = () => {
   );
 };
 
-export default Clans;
+export default Category;
