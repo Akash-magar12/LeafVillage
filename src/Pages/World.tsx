@@ -28,20 +28,21 @@ const World = () => {
   const fetchData = async (reset = false) => {
     try {
       const response = await axios.get(
-        `https://dattebayo-api.onrender.com/${category}?page=${reset ? 1 : page}&limit=20`
+        `https://dattebayo-api.onrender.com/${category}?page=${
+          reset ? 1 : page
+        }&limit=20`
       );
 
       const newData = response.data[category];
 
       if (reset) {
         setData(newData);
-        setPage(2); // next page
+        setPage(2);
       } else {
         setData((prev) => [...prev, ...newData]);
         setPage((prev) => prev + 1);
       }
 
-      // If API returns empty, stop further calls
       if (newData.length === 0) {
         setHasMore(false);
       }
@@ -52,7 +53,6 @@ const World = () => {
     }
   };
 
-  // Reset when category changes
   useEffect(() => {
     setLoading(true);
     setHasMore(true);
@@ -64,18 +64,18 @@ const World = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-16">
-      <h1 className="text-4xl font-bold mb-12 text-center">
+    <div className="max-w-6xl mx-auto px-6 py-12">
+      <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
         🌍 Explore the Naruto World
       </h1>
 
       {/* Filter Section */}
-      <Card className="shadow-lg border border-orange-200">
-        <CardContent className="p-8 flex flex-col md:flex-row items-center gap-6">
-          <h2 className="text-xl font-semibold text-gray-800">
+      <Card className="shadow-sm border rounded-lg">
+        <CardContent className="p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <h2 className="text-lg font-semibold text-gray-700">
             Choose a Category
           </h2>
-          <Select onValueChange={(val) => setCategory(val)}>
+          <Select onValueChange={(val) => setCategory(val)} defaultValue="clans">
             <SelectTrigger className="w-[220px]">
               <SelectValue placeholder="Clans" />
             </SelectTrigger>
@@ -117,11 +117,13 @@ const World = () => {
           </p>
         }
       >
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {data.map((item) => (
             <Link key={item.id} to={`/${category}/${item.id}`}>
-              <Card className="p-4">
-                <h3 className="font-bold text-lg">{item.name}</h3>
+              <Card className="p-6 border rounded-lg hover:shadow-md transition duration-200">
+                <h3 className="font-semibold text-lg text-gray-800">
+                  {item.name}
+                </h3>
               </Card>
             </Link>
           ))}
